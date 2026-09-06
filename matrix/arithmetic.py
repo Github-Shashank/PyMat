@@ -205,11 +205,12 @@ def prod(matrix):
     return result
 
 
-def norm(matrix):
-    return mathsqrt(
-        builtins.sum(
-            matrix.m[i][j] ** 2
-            for i in range(matrix.order[0])
-            for j in range(matrix.order[1])
-        )
+def norm_squared(matrix):
+    return builtins.sum(
+        matrix.m[i][j] ** 2
+        for i in range(matrix.order[0])
+        for j in range(matrix.order[1])
     )
+
+def norm(matrix):
+    return mathsqrt(norm_squared(matrix))

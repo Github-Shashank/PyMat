@@ -1253,6 +1253,54 @@ class TestMatrix(unittest.TestCase):
         self.assertEqual(A, original_A)
         self.assertEqual(B, original_B)
 
+    def test_copy(self):
+        A = Matrix([
+            [1, 2],
+            [3, 4]
+        ])
+
+        B = A.copy()
+
+        self.assertEqual(A, B)
+        self.assertIsNot(A, B)
+
+    def test_copy_independent(self):
+        A = Matrix([
+            [1, 2],
+            [3, 4]
+        ])
+
+        B = A.copy()
+
+        B[0, 0] = 100
+
+        self.assertEqual(A[0, 0], 1)
+        self.assertEqual(B[0, 0], 100)
+
+    def test_norm_squared(self):
+        A = Matrix([
+            [3, 4]
+        ])
+
+        self.assertEqual(A.norm_squared(), 25)
+
+    def test_norm_squared_matrix(self):
+        A = Matrix([
+            [1, 2],
+            [3, 4]
+        ])
+
+        self.assertEqual(A.norm_squared(), 30)
+
+    def test_package_import(self):
+        from matrix import Matrix
+
+        A = Matrix([
+            [1, 2]
+        ])
+
+        self.assertEqual(A.shape, (1, 2))
+
 
 if __name__ == "__main__":
     unittest.main()

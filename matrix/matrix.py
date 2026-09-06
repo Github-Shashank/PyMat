@@ -1,3 +1,4 @@
+import copy
 from .validators import (
     check_matrix,
     is_equal_order,
@@ -80,6 +81,7 @@ from .arithmetic import (
     min,
     max,
     prod, 
+    norm_squared,
     norm
 )
 
@@ -172,9 +174,14 @@ class Matrix:
     def prod(self):
         return prod(self)
 
+    def norm_squared(matrix):
+        return norm_squared(matrix)
 
     def norm(self):
         return norm(self)
+
+    def copy(self):
+        return type(self)(copy.deepcopy(self.m))
     
     def __truediv__(self, other):
         return divide(self, other)
