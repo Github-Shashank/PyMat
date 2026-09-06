@@ -959,5 +959,81 @@ class TestMatrix(unittest.TestCase):
         with self.assertRaises(IndexError):
             A.swapCols(0, 2)
 
+    def test_is_approx_equal(self):
+        A = Matrix([
+            [1.0, 2.0],
+            [3.0, 4.0]
+        ])
+
+        B = Matrix([
+            [1.0, 2.0],
+            [3.0, 4.0]
+        ])
+
+        self.assertTrue(A.isApproxEqual(B))
+
+    def test_is_approx_equal_floating_point(self):
+        A = Matrix([
+            [0.1 + 0.2]
+        ])
+
+        B = Matrix([
+            [0.3]
+        ])
+
+        self.assertTrue(A.isApproxEqual(B))
+
+    def test_is_approx_equal_outside_tolerance(self):
+        A = Matrix([
+            [1.0]
+        ])
+
+        B = Matrix([
+            [1.001]
+        ])
+
+        self.assertFalse(A.isApproxEqual(B))
+
+    def test_is_approx_equal_custom_tolerance(self):
+        A = Matrix([
+            [1.0]
+        ])
+
+        B = Matrix([
+            [1.001]
+        ])
+
+        self.assertTrue(
+            A.isApproxEqual(B, tolerance=0.01)
+        )
+
+    def test_is_approx_equal_different_shape(self):
+        A = Matrix([
+            [1, 2]
+        ])
+
+        B = Matrix([
+            [1],
+            [2]
+        ])
+
+        self.assertFalse(A.isApproxEqual(B))
+
+    def test_is_approx_equal_negative_tolerance(self):
+        A = Matrix([[1]])
+        B = Matrix([[1]])
+
+        with self.assertRaises(ValueError):
+            A.isApproxEqual(B, tolerance=-1)
+
+    def test_exact_equality_still_exact(self):
+        A = Matrix([[0.1 + 0.2]])
+        B = Matrix([[0.3]])
+
+        self.assertFalse(A == B)
+        self.assertTrue(A.isApproxEqual(B))
+
+
+
 if __name__ == "__main__":
     unittest.main()

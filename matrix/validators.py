@@ -1,3 +1,5 @@
+import builtins
+
 def check_matrix(m):
     n = len(m[0])
     for i in m:
@@ -26,3 +28,19 @@ def is_multiplicable(self, other):
         return True
     else:
         return False
+
+def is_approx_equal(matrix, other, tolerance=1e-9):
+    if not matrix.isEqualOrder(other):
+        return False
+
+    if tolerance < 0:
+        raise ValueError("tolerance must be non-negative")
+
+    rows, cols = matrix.order
+
+    for i in range(rows):
+        for j in range(cols):
+            if builtins.abs(matrix.m[i][j] - other.m[i][j]) > tolerance:
+                return False
+
+    return True

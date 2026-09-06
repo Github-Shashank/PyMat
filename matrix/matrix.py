@@ -2,7 +2,8 @@ from .validators import (
     check_matrix,
     is_equal_order,
     is_valid_index,
-    is_multiplicable
+    is_multiplicable,
+    is_approx_equal,
 )
 from .operations import (
     transpose,
@@ -301,6 +302,9 @@ class Matrix:
 
     def isMultiplicable(self, other):
         return is_multiplicable(self, other)
+
+    def isApproxEqual(self, other, tolerance=1e-9):
+        return is_approx_equal(self, other, tolerance)
     
     def minor(self,rowIndex, colIndex):
         return minor(self, rowIndex, colIndex)
