@@ -82,3 +82,106 @@ def inverse(matrix):
         raise ValueError()
 
     return adjoint(matrix) * (1 / determinant(matrix))
+
+def rank(matrix):
+    values = [
+        [matrix.m[i][j] for j in range(matrix.order[1])]
+        for i in range(matrix.order[0])
+    ]
+
+    rows, cols = matrix.order
+    rank = 0
+    tolerance = 1e-12
+
+    for col in range(cols):
+        pivot = None
+
+        for row in range(rank, rows):
+            if abs(values[row][col]) > tolerance:
+                pivot = row
+                break
+
+        if pivot is None:
+            continue
+
+        values[rank], values[pivot] = (
+            values[pivot],
+            values[rank]
+        )
+
+        pivot_value = values[rank][col]
+
+        for row in range(rank + 1, rows):
+            factor = values[row][col] / pivot_value
+
+            for j in range(col, cols):
+                values[row][j] -= factor * values[rank][j]
+
+        rank += 1
+
+        if rank == rows:
+            break
+
+    return rank
+
+def solve(matrix, other):
+    rows, cols = matrix.order
+
+    if rows != cols:
+        raise ValueError("coefficient matrix must be square")
+
+    if other.order[0] != rows:
+        raise ValueError("incompatible dimensions")
+
+    n = rows
+
+    augmented = [
+        [
+            matrix.m[i][j]
+            for j in range(cols)
+        ] + [
+            other.m[i][j]
+            for j in range(other.order[1])
+        ]
+        for i in range(rows)
+    ]
+
+    rhs_cols = other.order[1]
+    tolerance = 1e-12
+
+    for col in range(n):
+        pivot = max(
+            range(col, n),
+            key=lambda row: abs(augmented[row][col])
+        )
+
+        if abs(augmented[pivot][col]) <= tolerance:
+            raise ValueError("matrix is singular")
+
+        augmented[col], augmented[pivot] = (
+            augmented[pivot],
+            augmented[col]
+        )
+
+        pivot_value = augmented[col][col]
+
+        for j in range(col, n + rhs_cols):
+            augmented[col][j] /= pivot_value
+
+        for row in range(n):
+            if row == col:
+                continue
+
+            factor = augmented[row][col]
+
+            for j in range(col, n + rhs_cols):
+                augmented[row][j] -= (
+                    factor * augmented[col][j]
+                )
+
+    result = [
+        augmented[i][n:n + rhs_cols]
+        for i in range(n)
+    ]
+
+    return type(matrix)(result)

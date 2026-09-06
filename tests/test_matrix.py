@@ -1033,6 +1033,225 @@ class TestMatrix(unittest.TestCase):
         self.assertFalse(A == B)
         self.assertTrue(A.isApproxEqual(B))
 
+    def test_rank_full_square(self):
+        A = Matrix([
+            [1, 2],
+            [3, 4]
+        ])
+
+        self.assertEqual(A.rank(), 2)
+
+    def test_rank_deficient(self):
+        A = Matrix([
+            [1, 2],
+            [2, 4]
+        ])
+
+        self.assertEqual(A.rank(), 1)
+
+    def test_rank_zero(self):
+        A = Matrix([
+            [0, 0],
+            [0, 0]
+        ])
+
+        self.assertEqual(A.rank(), 0)
+
+    def test_rank_rectangular(self):
+        A = Matrix([
+            [1, 2, 3],
+            [4, 5, 6]
+        ])
+
+        self.assertEqual(A.rank(), 2)
+
+    def test_rank_rectangular_tall(self):
+        A = Matrix([
+            [1, 2],
+            [3, 4],
+            [5, 6]
+        ])
+
+        self.assertEqual(A.rank(), 2)
+
+    def test_solve(self):
+        A = Matrix([
+            [2, 1],
+            [1, 3]
+        ])
+
+        B = Matrix([
+            [5],
+            [6]
+        ])
+
+        result = A.solve(B)
+
+        expected = Matrix([
+            [1.8],
+            [1.4]
+        ])
+
+        self.assertTrue(
+            result.isApproxEqual(expected)
+        )
+
+    def test_solve_integer_solution(self):
+        A = Matrix([
+            [2, 1],
+            [1, 1]
+        ])
+
+        B = Matrix([
+            [5],
+            [3]
+        ])
+
+        result = A.solve(B)
+
+        expected = Matrix([
+            [2],
+            [1]
+        ])
+
+        self.assertTrue(
+            result.isApproxEqual(expected)
+        )
+
+    def test_solve_integer_solution(self):
+        A = Matrix([
+            [2, 1],
+            [1, 1]
+        ])
+
+        B = Matrix([
+            [5],
+            [3]
+        ])
+
+        result = A.solve(B)
+
+        expected = Matrix([
+            [2],
+            [1]
+        ])
+
+        self.assertTrue(
+            result.isApproxEqual(expected)
+        )
+
+    def test_solve_multiple_rhs(self):
+        A = Matrix([
+            [2, 1],
+            [1, 3]
+        ])
+
+        B = Matrix([
+            [5, 1],
+            [6, 2]
+        ])
+
+        result = A.solve(B)
+
+        expected = Matrix([
+            [1.8, 0.2],
+            [1.4, 0.6]
+        ])
+
+        self.assertTrue(
+            result.isApproxEqual(expected)
+        )
+
+    def test_solve_requires_pivoting(self):
+        A = Matrix([
+            [0, 1],
+            [1, 2]
+        ])
+
+        B = Matrix([
+            [3],
+            [5]
+        ])
+
+        result = A.solve(B)
+
+        expected = Matrix([
+            [-1],
+            [3]
+        ])
+
+        self.assertTrue(
+            result.isApproxEqual(expected)
+        )
+
+    def test_solve_singular(self):
+        A = Matrix([
+            [1, 2],
+            [2, 4]
+        ])
+
+        B = Matrix([
+            [3],
+            [6]
+        ])
+
+        with self.assertRaises(ValueError):
+            A.solve(B)
+
+    def test_solve_non_square(self):
+        A = Matrix([
+            [1, 2, 3],
+            [4, 5, 6]
+        ])
+
+        B = Matrix([
+            [1],
+            [2]
+        ])
+
+        with self.assertRaises(ValueError):
+            A.solve(B)
+
+    def test_solve_incompatible_rhs(self):
+        A = Matrix([
+            [1, 2],
+            [3, 4]
+        ])
+
+        B = Matrix([
+            [1],
+            [2],
+            [3]
+        ])
+
+        with self.assertRaises(ValueError):
+            A.solve(B)
+
+    def test_solve_does_not_modify_inputs(self):
+        A = Matrix([
+            [2, 1],
+            [1, 3]
+        ])
+
+        B = Matrix([
+            [5],
+            [6]
+        ])
+
+        original_A = Matrix([
+            [2, 1],
+            [1, 3]
+        ])
+
+        original_B = Matrix([
+            [5],
+            [6]
+        ])
+
+        A.solve(B)
+
+        self.assertEqual(A, original_A)
+        self.assertEqual(B, original_B)
 
 
 if __name__ == "__main__":

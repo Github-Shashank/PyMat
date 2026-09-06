@@ -14,7 +14,9 @@ from .operations import (
     matrix_of_cofactors,
     trace,
     adjoint,
-    inverse
+    inverse,
+    rank,
+    solve,    
 )
 from .constructors import (
     one,
@@ -335,6 +337,12 @@ class Matrix:
     @property
     def inverse(self):
         return inverse(self)
+
+    def rank(self):
+        return rank(self)
+
+    def solve(self, other):
+        return solve(self, other)
 
     @classmethod
     def one(cls, rows, cols=None):
