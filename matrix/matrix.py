@@ -49,7 +49,9 @@ from .manipulation import (
     get_row,
     get_col,
     flatten,
-    reshape
+    reshape,
+    swap_cols,
+    swap_rows,
 )
 from .arithmetic import (
     add,
@@ -236,6 +238,12 @@ class Matrix:
 
     def reshape(self, rows, cols):
         return reshape(self, rows, cols)
+
+    def swapCols(self, col1, col2, inplace=False):
+        return swap_cols(self, col1, col2, inplace)
+
+    def swapRows(self, row1, row2, inplace=False):
+        return swap_rows(self, row1, row2, inplace)
     
     @property
     def isSqrMatrix(self):
