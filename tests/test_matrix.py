@@ -839,5 +839,125 @@ class TestMatrix(unittest.TestCase):
         )
 
 
+    def test_swap_rows(self):
+        A = Matrix([
+            [1, 2],
+            [3, 4],
+            [5, 6]
+        ])
+
+        result = A.swapRows(0, 2)
+
+        self.assertEqual(
+            result,
+            Matrix([
+                [5, 6],
+                [3, 4],
+                [1, 2]
+            ])
+        )
+
+    def test_swap_rows_not_inplace(self):
+        A = Matrix([
+            [1, 2],
+            [3, 4]
+        ])
+
+        A.swapRows(0, 1)
+
+        self.assertEqual(
+            A,
+            Matrix([
+                [1, 2],
+                [3, 4]
+            ])
+        )
+
+    def test_swap_rows_not_inplace(self):
+        A = Matrix([
+            [1, 2],
+            [3, 4]
+        ])
+
+        A.swapRows(0, 1)
+
+        self.assertEqual(
+            A,
+            Matrix([
+                [1, 2],
+                [3, 4]
+            ])
+        )
+
+    def test_swap_rows_invalid_index(self):
+        A = Matrix([
+            [1, 2],
+            [3, 4]
+        ])
+
+        with self.assertRaises(IndexError):
+            A.swapRows(-1, 1)
+
+        with self.assertRaises(IndexError):
+            A.swapRows(0, 2)
+
+    def test_swap_rows_invalid_index(self):
+        A = Matrix([
+            [1, 2],
+            [3, 4]
+        ])
+
+        with self.assertRaises(IndexError):
+            A.swapRows(-1, 1)
+
+        with self.assertRaises(IndexError):
+            A.swapRows(0, 2)
+
+    def test_swap_cols_not_inplace(self):
+        A = Matrix([
+            [1, 2],
+            [3, 4]
+        ])
+
+        A.swapCols(0, 1)
+
+        self.assertEqual(
+            A,
+            Matrix([
+                [1, 2],
+                [3, 4]
+            ])
+        )
+
+    def test_swap_cols_inplace(self):
+        A = Matrix([
+            [1, 2],
+            [3, 4]
+        ])
+
+        result = A.swapCols(0, 1, inplace=True)
+
+        self.assertIs(result, A)
+
+        self.assertEqual(
+            A,
+            Matrix([
+                [2, 1],
+                [4, 3]
+            ])
+        )
+
+    def test_swap_cols_invalid_index(self):
+        A = Matrix([
+            [1, 2],
+            [3, 4]
+        ])
+
+        with self.assertRaises(IndexError):
+            A.swapCols(-1, 1)
+
+        with self.assertRaises(IndexError):
+            A.swapCols(0, 2)
+
 if __name__ == "__main__":
     unittest.main()

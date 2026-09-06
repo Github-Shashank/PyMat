@@ -105,3 +105,41 @@ def reshape(matrix, rows, cols):
     ]
 
     return type(matrix)(result)
+
+def swap_rows(matrix, row1, row2, inplace=False):
+    rows, cols = matrix.order
+
+    if not 0 <= row1 < rows:
+        raise IndexError("invalid row index")
+
+    if not 0 <= row2 < rows:
+        raise IndexError("invalid row index")
+
+    target = matrix if inplace else type(matrix)(copy.deepcopy(matrix.m))
+
+    target.m[row1], target.m[row2] = (
+        target.m[row2],
+        target.m[row1]
+    )
+
+    return target
+
+def swap_cols(matrix, col1, col2, inplace=False):
+    rows, cols = matrix.order
+
+    if not 0 <= col1 < cols:
+        raise IndexError("invalid column index")
+
+    if not 0 <= col2 < cols:
+        raise IndexError("invalid column index")
+
+    target = matrix if inplace else type(matrix)(copy.deepcopy(matrix.m))
+
+    for i in range(rows):
+        target.m[i][col1], target.m[i][col2] = (
+            target.m[i][col2],
+            target.m[i][col1]
+        )
+
+    return target
+
